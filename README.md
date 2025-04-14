@@ -17,12 +17,16 @@ This project is designed to be completed within a few weeks, focusing on getting
 
 ## 📁 Folder Structure
 ai-chatbot/ 
-├── static/ # CSS and frontend assets │ 
+# CSS and frontend assets
+├── static/ │ 
     └── style.css 
-├── templates/ # HTML templates │ 
+# HTML templates 
+├── templates/│ 
     └── index.html 
-├── app.py # Flask backend 
-├── README.md # Project overview
+# Flask backend 
+├── app.py 
+# Project overview
+├── README.md 
 
 
 ## ✅ Features
@@ -39,10 +43,11 @@ cd ai-chatbot
 4. Open your browser and go to ``
 
 ## 👨‍💻 Team Members
-- Dempsey (project setup & backend)
-- 
-- 
-- 
+- Dempsey (Hoang Le) (project setup & backend)
+- Carlos Romero
+- Garen Astrounian
+- Derek Shin
+- Fabricio Reyes
 
 
 ## 📅 Timeline
@@ -51,5 +56,3 @@ cd ai-chatbot
 - Week 4: Final testing + video presentation
 
 ---
-
-Let me know if you'd like to personalize it more (e.g., change the goal or target audience).
