@@ -49,8 +49,9 @@ ai-chatbot/
 git clone https://github.com/hoangle66/ai-chatbot.git
 cd ai-chatbot
 2. Install dependencies Flask: `pip install flask`, `pip install flask python-dotenv openai`
-3. Run the app: `python app.py`
-4. Open your browser and go to `http://localhost:5000`
+3. Make sure to create a .env file locally within the ai-chatbot folder with the line: `OPENAI_API_KEY=your-openai-key-here`
+4. Run the app: `python app.py`
+5. Open your browser and go to `http://localhost:5000`
 
 ## 👨‍💻 Team Members
 - Dempsey (Hoang Le) (project setup & backend)
