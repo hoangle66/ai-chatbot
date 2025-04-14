@@ -18,10 +18,10 @@ This project is designed to be completed within a few weeks, focusing on getting
 ## 📁 Folder Structure
 ai-chatbot/ 
 # CSS and frontend assets
-├── static/ │ 
+├── static/ 
     └── style.css 
 # HTML templates 
-├── templates/│ 
+├── templates/
     └── index.html 
 # Flask backend 
 ├── app.py 
