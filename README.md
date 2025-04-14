@@ -1,25 +1,34 @@
 # AI Chatbot Project 🤖
 
-This is a simple AI-powered chatbot built using **TBD** for the final project in CS 4540 (AI Learning). The goal is to create a working chatbot web app that uses AI or language model prompts to provide useful responses.
+This is a simple AI-powered chatbot built using **Flask** for the final project in CS 4540 (AI Learning). The goal is to create a working chatbot web app that uses AI or language model prompts to provide useful responses.
 
-## 💡 Project Idea
-We're building a chatbot that can:
-- Answer casual questions
-- Recommend games or movies (optional)
-- Be easily extendable using AI APIs like OpenAI's GPT models
+## 💡 Project Goal
+We're building a chatbot that:
+- Answers casual and informative questions
+- Remembers chat history within a session
+- Feels responsive and user-friendly
+- Can be extended with more AI features (e.g., game/movie recommendation logic)
 
 This project is designed to be completed within a few weeks, focusing on getting a functional and presentable prototype.
 
-## 🛠️ Tech Stack (TBD)
-- **Python** (Flask)
-- **HTML/CSS** (for frontend)
-- Optional: OpenAI GPT API (or any LLM)
+---
+
+## 🛠️ Tech Stack
+
+| Layer        | Technology                  |
+|--------------|-----------------------------|
+| Backend      | Python (Flask)              |
+| Frontend     | HTML, CSS                   |
+| AI Engine    | OpenAI GPT-3.5 Turbo        |
+| Environment  | Python-dotenv for API key   |
 
 ## 📁 Folder Structure
 ai-chatbot/ 
 # CSS and frontend assets
 ├── static/ 
-    └── style.css 
+    └── style.css
+    # Background image
+├── img/ 
 # HTML templates 
 ├── templates/
     └── index.html 
@@ -34,11 +43,12 @@ ai-chatbot/
 - Flask backend to handle chat logic
 - Clear structure to add more AI features later
 
+
 ## 🚀 How to Run
 1. Clone this repo:
 git clone https://github.com/hoangle66/ai-chatbot.git
 cd ai-chatbot
-2. Install Flask: `pip install flask`
+2. Install dependencies Flask: `pip install flask`, `pip install flask python-dotenv openai`
 3. Run the app: `python app.py`
 4. Open your browser and go to `http://localhost:5000`
 
@@ -56,3 +66,18 @@ cd ai-chatbot
 - Week 4: Final testing + video presentation
 
 ---
+## ✅ Features Completed
+
+- [x] OpenAI GPT API integration
+- [x] Session-based memory for interactive chat
+- [x] Stylized front-end using CSS and blur effect
+- [x] Scrollable conversation area
+- [x] Welcome message on first load
+- [x] "Clear Chat" button to reset session
+- [x] Environmental variable `.env` support for API key
+
+---
+
+
+
+
