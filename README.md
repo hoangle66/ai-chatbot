@@ -38,9 +38,9 @@ ai-chatbot/
 1. Clone this repo:
 git clone https://github.com/hoangle66/ai-chatbot.git
 cd ai-chatbot
-2. Install Flask:
-3. Run the app:
-4. Open your browser and go to ``
+2. Install Flask: `pip install flask`
+3. Run the app: `python app.py`
+4. Open your browser and go to `http://localhost:5000`
 
 ## 👨‍💻 Team Members
 - Dempsey (Hoang Le) (project setup & backend)

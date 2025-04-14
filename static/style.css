@@ -1,0 +1,141 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+body {
+    background-image: url('/static/img/background.jpg');
+    background-size: cover;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    padding: 40px 0;
+}
+
+.gallery-title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 600;
+    margin-top: 20px;
+    color: #cdffcd;
+}
+
+.gallery-title ion-icon {
+    margin-right: 10px;
+    font-size: 32px;
+}
+
+.container.gallery-container {
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, .5);
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    color: #35373a;
+    min-height: 60vh;
+    padding: 30px 50px;
+    width: 70%;
+    margin: 0 auto;
+    backdrop-filter: blur(10px);
+}
+
+.gallery-container h1 {
+    text-align: center;
+    margin-top: 20px;
+    font-family: "Poppins", sans-serif;
+    font-weight: bold;
+    color: #cdffcd;
+}
+
+.gallery-container p.page-description {
+    font-family: "Poppins", sans-serif;
+    text-align: center;
+    margin: 15px auto;
+    font-size: 18px;
+    color: #cdffcd;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    gap: 10px;
+}
+
+form input[type="text"] {
+    width: 60%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+
+form input[type="submit"] {
+    padding: 12px 25px;
+    border-radius: 8px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+}
+
+form input[type="submit"]:hover {
+    background-color: #3a78c2;
+}
+
+.response {
+    margin-top: 30px;
+    text-align: center;
+    background: #2b2b3c;
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-family: 'Poppins', sans-serif;
+    animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 20px;
+  padding: 15px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  backdrop-filter: blur(4px);
+}
+
+.chat-bubble {
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  max-width: 90%;
+  line-height: 1.5;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.chat-bubble.user {
+  background-color: #e0f7fa;
+  color: #0a0a0a;
+  text-align: left;
+  align-self: flex-end;
+}
+
+.chat-bubble.bot {
+  background-color: #cdffcd;
+  color: #0a0a0a;
+  text-align: left;
+}
