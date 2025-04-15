@@ -109,7 +109,7 @@ form input[type="submit"]:hover {
 .chat-window {
   display: flex;
   flex-direction: column;
-  max-height: 300px;
+  max-height: 700px;
   overflow-y: auto;
   margin-top: 20px;
   padding: 15px;
@@ -138,4 +138,104 @@ form input[type="submit"]:hover {
   background-color: #cdffcd;
   color: #0a0a0a;
   text-align: left;
+}
+
+
+/* Typing Indicator Style */
+.typing-indicator {
+    width: fit-content;
+    padding: 8px 12px;
+    background-color: #cdffcd;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  
+  .typing-dots {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+  }
+  
+  .typing-dots span {
+    width: 8px;
+    height: 8px;
+    background-color: #4a4a4a;
+    border-radius: 50%;
+    animation: blink 1.4s infinite ease-in-out;
+    opacity: 0.3;
+  }
+  
+  .typing-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  
+  .typing-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+  
+  @keyframes blink {
+    0%, 100% { opacity: 0.3; transform: translateY(0); }
+    50% { opacity: 1; transform: translateY(-3px); }
+  }
+  
+
+  /* ====== Chat Form Buttons ====== */
+#chat-form input[type="submit"] {
+    padding: 10px 20px;
+    border-radius: 6px;
+    background-color: #cdffcd;
+    color: #2b2b3c;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.2s ease-in-out;
+}
+
+#chat-form input[type="submit"]:hover {
+    background-color: #b8f4b8;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* ====== Clear Chat Button ====== */
+button.clear-chat-btn {
+    padding: 8px 20px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    transition: all 0.2s ease-in-out;
+}
+
+button.clear-chat-btn:hover {
+    background-color: #f5c6cb;
+    transform: scale(1.03);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* ====== Preset Buttons (Recommend Game/Movie) ====== */
+.preset-btn {
+    padding: 6px 10px;
+    border-radius: 6px;
+    background-color: white;
+    border: 1px solid #ccc;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    margin-right: 5px;
+}
+
+.preset-btn:hover {
+    background-color: #f0f0f0;
+    border-color: #999;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

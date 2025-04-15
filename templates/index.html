@@ -18,48 +18,45 @@
         <!-- Recommend a Game Button -->
         <form method="POST" style="display: inline;">
             <input type="hidden" name="preset" value="game">
-            <button type="submit" style="padding: 6px 10px; border-radius: 3px; background-color: white; border: 1px solid #ccc; font-family: 'Poppins', sans-serif;">
-                🎮 Recommend a Game
-            </button>
+            <button type="submit" class="preset-btn">🎮 Recommend a Game</button>
         </form>
 
         <!-- Recommend a Movie Button -->
         <form method="POST" style="display: inline;">
             <input type="hidden" name="preset" value="movie">
-            <button type="submit" style="padding: 6px 10px; border-radius: 3px; background-color: white; border: 1px solid #ccc; font-family: 'Poppins', sans-serif;">
-                🎬 Recommend a Movie
-            </button>
+            <button type="submit" class="preset-btn">🎬 Recommend a Movie</button>
         </form>
 
         {% if history %}
         <div class="chat-window">
-            {% for message in history %}
-                {% if message.role == 'user' %}
-                    <div class="chat-bubble user">{{ message.content }}</div>
-                {% elif message.role == 'assistant' %}
-                    <div class="chat-bubble bot">{{ message.content }}</div>
-                {% endif %}
-            {% endfor %}
+            {% if history %}
+                {% for message in history %}
+                    {% if message.role == 'user' %}
+                        <div class="chat-bubble user">{{ message.content }}</div>
+                    {% elif message.role == 'assistant' %}
+                        <div class="chat-bubble bot">{{ message.content }}</div>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
         </div>
         {% endif %}
 
-        <form method="POST" style="display:flex; gap:10px; justify-content:center; margin-top: 30px;">
+        <!-- Typing dots always present (JS toggles it) -->
+        <div id="loading-message" class="chat-bubble bot typing-indicator" style="display: none;">
+            <span class="typing-dots">
+              <span></span><span></span><span></span>
+            </span>
+        </div>
+
+        <form id="chat-form" method="POST" style="display:flex; gap:10px; justify-content:center; margin-top: 30px;">
             <input type="text" name="user_input" placeholder="Type your message..." required style="width: 60%; padding: 10px; border-radius: 6px; border: none;">
-            <input type="submit" value="Send" style="padding: 10px 20px; border-radius: 6px; background-color: #cdffcd; color: #2b2b3c; border: none; cursor: pointer;">
+            <input type="submit" value="Send">
         </form>
         
         <form method="GET" action="/reset" style="text-align:center; margin-top: 10px;">
-            <button type="submit" style="padding: 8px 20px; background-color: #f8d7da; color: #721c24; border: none; border-radius: 6px; cursor: pointer;">
-                Clear Chat
-            </button>
+            <button type="submit" class="clear-chat-btn">Clear Chat</button>
         </form>
 
-        <script>
-            const chatWindow = document.querySelector('.chat-window');
-            if (chatWindow) {
-              chatWindow.scrollTop = chatWindow.scrollHeight;
-            }
-        </script>
         
     </div>
 
