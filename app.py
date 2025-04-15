@@ -11,17 +11,32 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 @app.route("/", methods=["GET", "POST"])
 def home():
     # Initialize conversation history once per session
-    if "history" not in session or not session["history"]:
+    if "history" not in session:
         session["history"] = [
-            {"role": "system", "content": "You are a helpful chatbot."},
-            {"role": "assistant", "content": "👋 Hello! How can I assist you today?"}
+            {
+                "role": "system",
+                "content": "You are a helpful and friendly AI assistant. You remember the full context of the conversation and respond accordingly, offering follow-up responses when needed."
+            },
+            {
+                "role": "assistant",
+                "content": "👋 Hello! How can I assist you today?"
+            }
         ]
+        session["show_welcome"] = True
 
     user_input = None
     response = None
 
     if request.method == "POST":
-        user_input = request.form["user_input"]
+        # Optional: check if preset was selected (like game or movie)
+        preset = request.form.get("preset")
+        if preset == "game":
+            user_input = "Can you recommend me a video game?"
+        elif preset == "movie":
+            user_input = "Can you recommend me a movie?"
+        else:
+            user_input = request.form["user_input"]
+
         session["history"].append({"role": "user", "content": user_input})
 
         try:
@@ -31,12 +46,14 @@ def home():
             )
             response = completion.choices[0].message.content.strip()
             session["history"].append({"role": "assistant", "content": response})
-
         except Exception as e:
             response = f"Error: {e}"
             session["history"].append({"role": "assistant", "content": response})
 
-    return render_template("index.html", response=response, user_input=user_input, history=session["history"])
+        session["show_welcome"] = False  # Turn off greeting after first POST
+
+    return render_template("index.html", response=response, user_input=user_input, history=session["history"], show_welcome=session.get("show_welcome", False))
+
 
 @app.route("/reset")
 def reset():
