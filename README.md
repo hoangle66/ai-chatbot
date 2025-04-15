@@ -4,10 +4,10 @@ This is a simple AI-powered chatbot built using **Flask** for the final project 
 
 ## 💡 Project Goal
 We're building a chatbot that:
-- Answers casual and informative questions
-- Remembers chat history within a session
-- Feels responsive and user-friendly
-- Can be extended with more AI features (e.g., game/movie recommendation logic)
+- Answering user questions conversationally
+- Recommending movies and games (via preset buttons)
+- Maintaining chat history per session
+- Providing a responsive UI experience with loading animations and auto-scroll
 
 This project is designed to be completed within a few weeks, focusing on getting a functional and presentable prototype.
 
@@ -21,6 +21,9 @@ This project is designed to be completed within a few weeks, focusing on getting
 | Frontend     | HTML, CSS                   |
 | AI Engine    | OpenAI GPT-3.5 Turbo        |
 | Environment  | Python-dotenv for API key   |
+| UX Interacts | JavaScript                  |
+
+
 
 ## 📁 Folder Structure
 ai-chatbot/ 
@@ -69,13 +72,14 @@ cd ai-chatbot
 ---
 ## ✅ Features Completed
 
-- [x] OpenAI GPT API integration
-- [x] Session-based memory for interactive chat
-- [x] Stylized front-end using CSS and blur effect
-- [x] Scrollable conversation area
-- [x] Welcome message on first load
-- [x] "Clear Chat" button to reset session
-- [x] Environmental variable `.env` support for API key
+- [x] Continuous conversation using OpenAI Chat Completions
+- [x] Preset buttons for **game/movie recommendations**
+- [x] Typing animation while bot is "thinking"
+- [x] Scrollable chat window that keeps latest messages in view
+- [x] Stylish and mobile-friendly layout
+- [x] Auto-focus input for fast chatting
+- [x] Easy **Clear Chat** reset button
+- [x] Dark-on-light contrast for better readability
 
 ---
 
