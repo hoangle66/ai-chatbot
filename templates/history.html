@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Saved Chat History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>📜 Saved Chat History</h1>
+        <a href="/" style="text-decoration: underline;">← Back to Chat</a>
+        <div class="chat-window" style="margin-top: 20px;">
+            {% for message in messages %}
+                <div class="chat-bubble {{ 'user' if message.role == 'user' else 'bot' }}">
+                    <strong>{{ message.role.capitalize() }}:</strong> {{ message.content }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
