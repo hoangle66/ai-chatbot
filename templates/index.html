@@ -27,6 +27,18 @@
             <button type="submit" class="preset-btn">🎬 Recommend a Movie</button>
         </form>
 
+        <!-- Recommend a Book Button -->
+        <form method="POST" style="display: inline;">
+            <input type="hidden" name="preset" value="book">
+            <button type="submit" class="preset-btn">📚 Recommend a Book</button>
+        </form>
+
+        <!-- Give Advice Button -->
+        <form method="POST" style="display: inline;">
+            <input type="hidden" name="preset" value="advice">
+            <button type="submit" class="preset-btn">🧘 Give Advice</button>
+        </form>
+
         {% if history %}
         <div class="chat-window">
             {% if history %}
@@ -34,7 +46,7 @@
                     {% if message.role == 'user' %}
                         <div class="chat-bubble user">{{ message.content }}</div>
                     {% elif message.role == 'assistant' %}
-                        <div class="chat-bubble bot">{{ message.content }}</div>
+                        <div class="chat-bubble bot">{{ message.content | replace('\n', '<br>') | safe }}</div>
                     {% endif %}
                 {% endfor %}
             {% endif %}

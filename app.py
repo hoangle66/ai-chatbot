@@ -34,6 +34,10 @@ def home():
             user_input = "Can you recommend me a video game?"
         elif preset == "movie":
             user_input = "Can you recommend me a movie?"
+        elif preset == "book":
+            user_input = "Can you recommend me a good book?"
+        elif preset == "advice":
+            user_input = "Can you give me some life advice?"
         else:
             user_input = request.form["user_input"]
 

@@ -5,7 +5,8 @@ This is a simple AI-powered chatbot built using **Flask** for the final project 
 ## 💡 Project Goal
 We're building a chatbot that:
 - Answering user questions conversationally
-- Recommending movies and games (via preset buttons)
+- Recommending movies, games, and books (via preset buttons)
+- Offering friendly advice (via preset button)
 - Maintaining chat history per session
 - Providing a responsive UI experience with loading animations and auto-scroll
 
@@ -27,23 +28,25 @@ This project is designed to be completed within a few weeks, focusing on getting
 
 ## 📁 Folder Structure
 ai-chatbot/ 
-# CSS and frontend assets
 ├── static/ 
-    └── style.css
-    # Background image
-├── img/ 
-# HTML templates 
+│    └── style.css
+│    └── img/ 
 ├── templates/
-    └── index.html 
-# Flask backend 
+│    └── index.html 
 ├── app.py 
-# Project overview
 ├── README.md 
+├── .env (local)
 
 
 ## ✅ Features
 - Simple frontend UI for interacting with the bot
+
 - Flask backend to handle chat logic
+
+- Preset suggestion buttons (games, movies, books, advice)
+
+- Smooth 3-dots typing animation during AI thinking
+
 - Clear structure to add more AI features later
 
 
@@ -72,15 +75,25 @@ cd ai-chatbot
 ---
 ## ✅ Features Completed
 
-- [x] Continuous conversation using OpenAI Chat Completions
-- [x] Preset buttons for **game/movie recommendations**
-- [x] Typing animation while bot is "thinking"
-- [x] Scrollable chat window that keeps latest messages in view
-- [x] Stylish and mobile-friendly layout
-- [x] Auto-focus input for fast chatting
-- [x] Easy **Clear Chat** reset button
-- [x] Dark-on-light contrast for better readability
+ - [x] Continuous conversation using OpenAI Chat Completions
 
+ - [x] Preset buttons for Game, Movie, Book recommendations
+
+ - [x] Give Advice preset button
+
+ - [x] Typing animation (3-dots) while bot is "thinking"
+
+ - [x] Smooth, center-aligned typing indicator with compact box
+
+ - [x] Scrollable chat window with auto-scroll to bottom
+
+- [x] Stylish and mobile-friendly layout
+
+- [x] Auto-focus input for faster chatting
+
+- [x] Clear Chat button to reset session
+
+- [x] Improved bot text formatting (line breaks for easier reading)
 ---
 
 
