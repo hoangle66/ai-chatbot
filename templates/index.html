@@ -44,9 +44,11 @@
             {% if history %}
                 {% for message in history %}
                     {% if message.role == 'user' %}
-                        <div class="chat-bubble user">{{ message.content }}</div>
+                        <div class="chat-bubble user">{{ message.content | safe }}</div>
+
                     {% elif message.role == 'assistant' %}
                         <div class="chat-bubble bot">{{ message.content | replace('\n', '<br>') | safe }}</div>
+
                     {% endif %}
                 {% endfor %}
             {% endif %}
@@ -60,10 +62,24 @@
             </span>
         </div>
 
-        <form id="chat-form" method="POST" style="display:flex; gap:10px; justify-content:center; margin-top: 30px;">
-            <input type="text" name="user_input" placeholder="Type your message..." required style="width: 60%; padding: 10px; border-radius: 6px; border: none;">
+        <form id="chat-form" method="POST" enctype="multipart/form-data">
+            <!-- Upload Icon as Label -->
+            <label for="image-upload" class="upload-btn">
+                <ion-icon name="image-outline"></ion-icon>
+            </label>
+            <!-- Hidden file input -->
+            <input type="file" id="image-upload" name="image" accept="image/*">
+            
+            <!-- Image preview box -->
+            <img id="preview" style="display:none; height: 36px; border-radius: 6px;" />
+        
+            <!-- Chat input and send -->
+            <input type="text" name="user_input" placeholder="Type your message..." required>
             <input type="submit" value="Send">
         </form>
+        
+        
+        
         
         <form method="GET" action="/reset" style="text-align:center; margin-top: 10px;">
             <button type="submit" class="clear-chat-btn">Clear Chat</button>

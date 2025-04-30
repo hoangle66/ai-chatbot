@@ -270,3 +270,75 @@ button.clear-chat-btn:hover {
     line-height: 1.6; /* <-- make lines less cramped */
     white-space: pre-line; /* <-- extra safety: keeps spaces/newlines */
 }
+
+/* Photo Attachment Icon */
+/* Chat form layout */
+#chat-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+/* Image upload button icon */
+.upload-btn {
+    background-color: #cdffcd;
+    border: none;
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+    width: 36px;
+  }
+  
+  .upload-btn:hover {
+    background-color: #b8f4b8;
+  }
+  
+  /* Chat input box */
+  #chat-form input[type="text"] {
+    padding: 6px 12px;
+    font-size: 14px;
+    height: 36px;
+    border-radius: 6px;
+    border: none;
+    width: 60%;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /* Send button */
+  #chat-form input[type="submit"] {
+    padding: 6px 18px;
+    font-size: 14px;
+    height: 36px;
+    background-color: #cdffcd;
+    color: #2b2b3c;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.2s ease-in-out;
+  }
+  
+
+  #image-upload {
+    display: none;
+  }
+
+  #preview {
+    margin-left: 5px;
+    box-shadow: 0 0 4px rgba(0,0,0,0.2);
+  }
+  
+
+  .chat-image {
+    max-width: 150px;
+    border-radius: 10px;
+    margin-top: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
