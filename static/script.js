@@ -34,5 +34,49 @@ window.onload = () => {
       });
     }
   };
-  
-  
+
+// new function
+function playAudio() {
+  var audio = document.getElementById("responseAudio");
+  audio.play();
+}
+
+// New Voice-to-text functionality (place it clearly below existing functions)
+const voiceBtn = document.getElementById("voice-btn");
+const inputField = document.querySelector('input[name="user_input"]');
+const form = document.getElementById('chat-form');
+
+function startListening() {
+    if (!('webkitSpeechRecognition' in window)) {
+        alert("Your browser does not support speech recognition. Try Chrome or Edge.");
+        return;
+    }
+
+    const recognition = new webkitSpeechRecognition();
+    recognition.continuous = false;
+    recognition.interimResults = false;
+    recognition.lang = 'en-US';
+
+    recognition.start();
+
+    recognition.onstart = function() {
+        voiceBtn.textContent = '🎙️ Listening...';
+    };
+
+    recognition.onerror = function(event) {
+        voiceBtn.textContent = '🎤 Speak';
+        alert('Error occurred: ' + event.error);
+    };
+
+    recognition.onend = function() {
+        voiceBtn.textContent = '🎤 Speak';
+    };
+
+    recognition.onresult = function(event) {
+        const transcript = event.results[0][0].transcript;
+        inputField.value = transcript;  // Insert text into input
+        form.submit();                  // Automatically submit form
+    };
+}
+
+voiceBtn.addEventListener('click', startListening);

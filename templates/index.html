@@ -9,6 +9,23 @@
 <body>
 
     <div class="container gallery-container">
+
+        <!-- Tab bar: new -->
+        <div class="tab-bar">
+            <div class="tab active" data-tab="chat">
+                <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+                <span>Chat</span>
+            </div>
+            <div class="tab" data-tab="settings">
+                <ion-icon name="settings-outline"></ion-icon>
+                <span>Settings</span>
+            </div>
+            <div class="tab" data-tab="help">
+                <ion-icon name="help-circle-outline"></ion-icon>
+                <span>Help</span>
+            </div>
+        </div>
+
         <h1 class="gallery-title">
             <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
             <span>Talk to the Chatbot</span>
@@ -53,6 +70,17 @@
         </div>
         {% endif %}
 
+        <!-- New code -->
+        {% if response %}
+        <div style="text-align: center; margin-top: 15px;">
+            <button onclick="playAudio()" class="preset-btn">🔊 Listen to Response</button>
+            <audio id="responseAudio">
+                <source src="{{ url_for('static', filename='audio_response.mp3') }}" type="audio/mp3">
+                Your browser does not support audio playback.
+            </audio>
+        </div>
+        {% endif %}
+        
         <!-- Typing dots always present (JS toggles it) -->
         <div id="loading-message" class="chat-bubble bot typing-indicator" style="display: none;">
             <span class="typing-dots">
@@ -60,16 +88,16 @@
             </span>
         </div>
 
+        <!-- new button-->
         <form id="chat-form" method="POST" style="display:flex; gap:10px; justify-content:center; margin-top: 30px;">
             <input type="text" name="user_input" placeholder="Type your message..." required style="width: 60%; padding: 10px; border-radius: 6px; border: none;">
             <input type="submit" value="Send">
+            <button type="button" id="voice-btn" class="preset-btn">🎤 Speak</button>
         </form>
         
         <form method="GET" action="/reset" style="text-align:center; margin-top: 10px;">
             <button type="submit" class="clear-chat-btn">Clear Chat</button>
         </form>
-
-        
     </div>
 
     <!-- Icon Support -->

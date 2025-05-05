@@ -270,3 +270,5 @@ button.clear-chat-btn:hover {
     line-height: 1.6; /* <-- make lines less cramped */
     white-space: pre-line; /* <-- extra safety: keeps spaces/newlines */
 }
+
+/* ---My implementations */
