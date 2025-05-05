@@ -19,38 +19,57 @@ This project is designed to be completed within a few weeks, focusing on getting
 | Layer        | Technology                  |
 |--------------|-----------------------------|
 | Backend      | Python (Flask)              |
-| Frontend     | HTML, CSS                   |
+| Frontend     | HTML, CSS, JS               |
 | AI Engine    | OpenAI GPT-4o (via API)     |
 | Environment  | Python-dotenv for API key   |
-| UX Interacts | JavaScript                  |
-| Uploads      | Base64 image encoding + PIL |
+| UX Interacts | JavaScript (animation)      |
+| Image Uploads| Base64 image encoding + PIL |
 | Sessions     | Flask-Session (server-side) |
+| Data Storage | SQLite (SQLAlchemy ORM)     |
+| Env Config   | Python-dotenv               |
 
 
 
 ## 📁 Folder Structure
-ai-chatbot/ 
-├── static/ 
-│    └── style.css
-│    └── img/ 
+ai-chatbot/
+├── static/
+│   ├── style.css
+│   ├── script.js
+│   └── img/
+│       └── background.jpg
 ├── templates/
-│    └── index.html 
-├── app.py 
-├── README.md 
-├── .env (local)
+│   ├── index.html
+│   └── history.html
+├── instance/
+│   └── chat_history.db  ← (SQLite DB auto-generated)
+├── app.py
+├── .env
+├── README.md
+└── .gitignore
 
 
 ## ✅ Features
-- Conversational memory with session persistence
-- Upload and send **images** to the bot (e.g. latte art, cards)
-- Preset suggestion buttons (🎮 Game, 🎬 Movie, 📚 Book, 🧘 Advice)
-- Typing animation (three dots) for a natural delay
-- Scrollable, auto-scrolling chat window
-- Stylish UI with mobile responsiveness
-- Auto-focus input field
-- Clear Chat to reset session
-- AI supports image + text input in the same message
+🧠 Conversational AI via GPT-4o
 
+🖼️ Image upload and processing support
+
+💬 Preset buttons for quick suggestions (Game, Movie, Book, Advice)
+
+⏳ Typing indicator (three-dot animation)
+
+🔁 Scrollable chat window with auto-scroll
+
+🧽 “Clear Chat” button to reset session
+
+💾 “View Saved History” with time-stamped logs
+
+🎛️ Tab bar for Chat, Settings, Help
+
+🎨 Elegant blurred-glass UI with full responsiveness
+
+🔊 Text-to-Speech support for assistant replies
+
+🧠 Session history stored using SQLite + SQLAlchemy
 ---
 
 ## 🚀 How to Run
@@ -60,11 +79,8 @@ git clone https://github.com/hoangle66/ai-chatbot.git
 cd ai-chatbot
 
 2. Install dependencies Flask: 
-`pip install flask`, 
 
-`pip install flask python-dotenv openai`
-
-`pip install flask flask-session`
+`pip install flask flask-session python-dotenv openai sqlalchemy gtts SpeechRecognition pillow beautifulsoup4`
 
 3. Create a .env file with your API key:
 
@@ -78,42 +94,45 @@ cd ai-chatbot
 6. Open your browser and go to `http://localhost:5000`
 
 ## 👨‍💻 Team Members
-- Dempsey (Hoang Le) (project setup & backend)
-- Carlos Romero
-- Garen Astrounian
+- Hoang Le (Dempsey) - Project setup, backend logic, OpenAI & image upload, JS enhancements
+- Carlos Romero  – Navigation bar tab UI , Speech to Text, Frontend improvments
+- Garen Astrounian - Chat history, Database Setup, Front End improvments
 - Derek Shin
 - Fabricio Reyes
 
 
 ## 📅 Timeline
-- Week 1: Setup + initial chatbot prototype
-- Week 2–3: Add AI logic + polish UI
-- Week 4: Final testing + video presentation
+- Week 1: Project setup, base Flask app
+- Week 2: Chatbot logic, OpenAI API integration
+- Week 3: UI polish, image upload, session handling
+- Week 4: Chat history, tab bar, final refinements
 
 ---
 ## ✅ Features Completed
 
- - [x] Continuous conversation using OpenAI Chat Completions
+ - [x] GPT-4o text responses
 
- - [x] Preset buttons for Game, Movie, Book recommendations
+ - [x] Upload images for visual discussion
 
- - [x] Give Advice preset button
+ - [x] Preset buttons: 🎮 Game, 🎬 Movie, 📚 Book, 🧘 Advice
 
- - [x] Typing animation (3-dots) while bot is "thinking"
+ - [x] Typing animation and polished chat flow
 
- - [x] Smooth, center-aligned typing indicator with compact box
+ - [x] Auto-scroll and scrollable window
 
- - [x] Scrollable chat window with auto-scroll to bottom
+ - [x] Stylish blurred-glass UI with background
 
-- [x] Stylish and mobile-friendly layout
+- [x] Clear Chat + View Saved History buttons
 
-- [x] Auto-focus input for faster chatting
+- [x] Full chat log with timestamps
 
-- [x] Clear Chat button to reset session
+- [x] Server-side session persistence
 
-- [x] Improved bot text formatting (line breaks for easier reading)
+- [x] SQLite + SQLAlchemy integration
 
 - [x] Server-side session via Flask-Session
 
-- [x] Image upload support (base64 encoding)
+- [x] Tab navigation bar: Chat / Settings / Help
+
+- [x] Responsive mobile-friendly layout
 ---

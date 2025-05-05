@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container gallery-container">
+        <h1 class="gallery-title">📜 Chat History</h1>
+        <ul>
+            {% for message in messages %}
+                <div class="chat-history-entry">
+                    <strong>{{ message.role.title() }}:</strong> {{ message.content }}
+                    <br><small>{{ message.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+                </div>
+            {% endfor %}
+        </ul>
+        <form method="get" action="/">
+            <button class="preset-btn">⬅ Back to Chat</button>
+        </form>
+    </div>
+</body>
+</html>
