@@ -84,7 +84,19 @@ def home():
             elif preset == "book":
                 user_input = "Can you recommend me a good book?"
             elif preset == "advice":
-                user_input = "Can you give me some life advice?"
+                user_input = "I need some advice, but first, can you ask me what kind of advice I need? For example: relationships, studying, or motivation?"
+            elif preset == "travel":
+                user_input = "Can you recommend me a good place to go travel?"
+            elif preset == "food":
+                user_input = "Can you recommend a recipe?"
+            elif preset == "joke":
+                user_input = "Tell me a joke"
+            elif preset == "fun_fact":
+                user_input = "Tell me a fun fact"
+            elif preset == "music":
+                user_input = "Can you recommend me a Song"
+            elif preset == "history":
+                user_input = "Can you give me a random fact in history"
             else:
                 user_input = request.form.get("user_input")
 

@@ -98,3 +98,25 @@ function startListening() {
 }
 
 if (voiceBtn) voiceBtn.addEventListener('click', startListening);
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const helpTab = document.querySelector('.tab[data-tab="help"]');
+  const helpModal = document.getElementById("helpModal");
+  const closeBtn = helpModal.querySelector(".close");
+
+  helpTab.addEventListener("click", () => {
+    helpModal.style.display = "block";
+  });
+
+  closeBtn.addEventListener("click", () => {
+    helpModal.style.display = "none";
+  });
+
+  window.addEventListener("click", (event) => {
+    if (event.target === helpModal) {
+      helpModal.style.display = "none";
+    }
+  });
+});

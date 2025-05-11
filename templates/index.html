@@ -33,17 +33,24 @@
         <p class="page-description">Ask anything, the chatbot will try its best!</p>
 
         <!-- Preset Buttons -->
-        {% for type, label, icon in [
-            ('game', 'Recommend a Game', '🎮'),
-            ('movie', 'Recommend a Movie', '🎬'),
-            ('book', 'Recommend a Book', '📚'),
-            ('advice', 'Give Advice', '🧘')
-        ] %}
-        <form method="POST" style="display: inline;">
-            <input type="hidden" name="preset" value="{{ type }}">
-            <button type="submit" class="preset-btn">{{ icon }} {{ label }}</button>
+        <form method="POST">
+        <div class="preset-button-container">
+            {% for type, label, icon in [
+                ('game', 'Recommend a Game', '🎮'),
+                ('movie', 'Recommend a Movie', '🎬'),
+                ('book', 'Recommend a Book', '📚'),
+                ('advice', 'Give Advice', '🧘'),
+                ('travel', 'Recommend a Place To Visit', '✈️'),
+                ('food', 'Recommend a Recipe', '🍴'),
+                ('joke', 'Tell a Joke', '😂'),
+                ('fun_fact', 'Fun Fact', '🧠'),
+                ('music', 'Recommend me a Song', '🎵'),
+                ('history', 'Give me a random fact about history', '🌐')
+            ] %}
+                <button type="submit" name="preset" value="{{ type }}" class="preset-btn">{{ icon }} {{ label }}</button>
+            {% endfor %}
+        </div>
         </form>
-        {% endfor %}
 
         <!-- Chat Window -->
         {% if history %}
@@ -102,7 +109,25 @@
         <form method="GET" action="/reset" style="text-align: center; margin-top: 10px;">
             <button type="submit" class="clear-chat-btn">Clear Chat</button>
         </form>
+
     </div>
+
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>🆘 How to Use the Chatbot</h2>
+        <ul>
+        <li>Type your question or use the 🎤 Speak button</li>
+        <li>Upload an image with your message</li>
+        <li>Use preset buttons for fast suggestions</li>
+        <li>Click “Clear Chat” to reset the session</li>
+        <li>Use “View Saved History” to view past chats</li>
+        </ul>
+    </div>
+    </div>
+
 
     <!-- Scripts -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
