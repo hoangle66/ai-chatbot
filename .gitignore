@@ -1,1 +1,8 @@
 .env
+__pycache__/
+*.pyc
+.env
+flask_session/
+instance/chat_history.db
+
+static/audio_response.mp3

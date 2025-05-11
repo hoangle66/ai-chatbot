@@ -5,7 +5,8 @@ This is a simple AI-powered chatbot built using **Flask** for the final project 
 ## 💡 Project Goal
 We're building a chatbot that:
 - Answering user questions conversationally
-- Recommending movies and games (via preset buttons)
+- Recommending movies, games, and books (via preset buttons)
+- Offering friendly advice (via preset button)
 - Maintaining chat history per session
 - Providing a responsive UI experience with loading animations and auto-scroll
 
@@ -18,71 +19,120 @@ This project is designed to be completed within a few weeks, focusing on getting
 | Layer        | Technology                  |
 |--------------|-----------------------------|
 | Backend      | Python (Flask)              |
-| Frontend     | HTML, CSS                   |
-| AI Engine    | OpenAI GPT-3.5 Turbo        |
+| Frontend     | HTML, CSS, JS               |
+| AI Engine    | OpenAI GPT-4o (via API)     |
 | Environment  | Python-dotenv for API key   |
-| UX Interacts | JavaScript                  |
+| UX Interacts | JavaScript (animation)      |
+| Image Uploads| Base64 image encoding + PIL |
+| Sessions     | Flask-Session (server-side) |
+| Data Storage | SQLite (SQLAlchemy ORM)     |
+| Env Config   | Python-dotenv               |
 
 
 
 ## 📁 Folder Structure
-ai-chatbot/ 
-# CSS and frontend assets
-├── static/ 
-    └── style.css
-    # Background image
-├── img/ 
-# HTML templates 
+ai-chatbot/
+├── static/
+│   ├── style.css
+│   ├── script.js
+│   └── img/
+│       └── background.jpg
 ├── templates/
-    └── index.html 
-# Flask backend 
-├── app.py 
-# Project overview
-├── README.md 
+│   ├── index.html
+│   └── history.html
+├── instance/
+│   └── chat_history.db  ← (SQLite DB auto-generated)
+├── app.py
+├── .env
+├── README.md
+└── .gitignore
 
 
 ## ✅ Features
-- Simple frontend UI for interacting with the bot
-- Flask backend to handle chat logic
-- Clear structure to add more AI features later
+🧠 Conversational AI via GPT-4o
 
+🖼️ Image upload and processing support
+
+💬 Preset buttons for quick suggestions (Game, Movie, Book, Advice)
+
+⏳ Typing indicator (three-dot animation)
+
+🔁 Scrollable chat window with auto-scroll
+
+🧽 “Clear Chat” button to reset session
+
+💾 “View Saved History” with time-stamped logs
+
+🎛️ Tab bar for Chat, Settings, Help
+
+🎨 Elegant blurred-glass UI with full responsiveness
+
+🔊 Text-to-Speech support for assistant replies
+
+🧠 Session history stored using SQLite + SQLAlchemy
+---
 
 ## 🚀 How to Run
+
 1. Clone this repo:
 git clone https://github.com/hoangle66/ai-chatbot.git
 cd ai-chatbot
-2. Install dependencies Flask: `pip install flask`, `pip install flask python-dotenv openai`
-3. Make sure to create a .env file locally within the ai-chatbot folder with the line: `OPENAI_API_KEY=your-openai-key-here`
-4. Run the app: `python app.py`
-5. Open your browser and go to `http://localhost:5000`
+
+2. Install dependencies Flask: 
+
+`pip install flask flask-session python-dotenv openai sqlalchemy gtts SpeechRecognition pillow beautifulsoup4`
+
+3. Create a .env file with your API key:
+
+`OPENAI_API_KEY=your-openai-key-here`
+
+4. (Optional) Create a directory for session storage (run on terminal):
+`mkdir flask_session`
+
+5. Run the app: `python app.py`
+
+6. Open your browser and go to `http://localhost:5000`
 
 ## 👨‍💻 Team Members
-- Dempsey (Hoang Le) (project setup & backend)
-- Carlos Romero
-- Garen Astrounian
+- Hoang Le (Dempsey) - Project setup, backend logic, OpenAI & image upload, JS enhancements
+- Carlos Romero  – Navigation bar tab UI , Speech to Text, Frontend improvments
+- Garen Astrounian - Chat history, Database Setup, Front End improvments
 - Derek Shin
 - Fabricio Reyes
 
 
 ## 📅 Timeline
-- Week 1: Setup + initial chatbot prototype
-- Week 2–3: Add AI logic + polish UI
-- Week 4: Final testing + video presentation
+- Week 1: Project setup, base Flask app
+- Week 2: Chatbot logic, OpenAI API integration
+- Week 3: UI polish, image upload, session handling
+- Week 4: Chat history, tab bar, final refinements
 
 ---
 ## ✅ Features Completed
 
-- [x] Continuous conversation using OpenAI Chat Completions
-- [x] Preset buttons for **game/movie recommendations**
-- [x] Typing animation while bot is "thinking"
-- [x] Scrollable chat window that keeps latest messages in view
-- [x] Stylish and mobile-friendly layout
-- [x] Auto-focus input for fast chatting
-- [x] Easy **Clear Chat** reset button
-- [x] Dark-on-light contrast for better readability
+ - [x] GPT-4o text responses
 
+ - [x] Upload images for visual discussion
+
+ - [x] Preset buttons: 🎮 Game, 🎬 Movie, 📚 Book, 🧘 Advice
+
+ - [x] Typing animation and polished chat flow
+
+ - [x] Auto-scroll and scrollable window
+
+ - [x] Stylish blurred-glass UI with background
+
+- [x] Clear Chat + View Saved History buttons
+
+- [x] Full chat log with timestamps
+
+- [x] Server-side session persistence
+
+- [x] SQLite + SQLAlchemy integration
+
+- [x] Server-side session via Flask-Session
+
+- [x] Tab navigation bar: Chat / Settings / Help
+
+- [x] Responsive mobile-friendly layout
 ---
-
-
-
-

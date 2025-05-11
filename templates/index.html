@@ -9,63 +9,105 @@
 <body>
 
     <div class="container gallery-container">
+
+        <!-- Tab bar -->
+        <div class="tab-bar">
+            <div class="tab active" data-tab="chat">
+                <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
+                <span>Chat</span>
+            </div>
+            <div class="tab" data-tab="settings">
+                <ion-icon name="settings-outline"></ion-icon>
+                <span>Settings</span>
+            </div>
+            <div class="tab" data-tab="help">
+                <ion-icon name="help-circle-outline"></ion-icon>
+                <span>Help</span>
+            </div>
+        </div>
+
         <h1 class="gallery-title">
             <ion-icon name="chatbubble-ellipses-outline"></ion-icon>
             <span>Talk to the Chatbot</span>
         </h1>
         <p class="page-description">Ask anything, the chatbot will try its best!</p>
 
-        <!-- Recommend a Game Button -->
+        <!-- Preset Buttons -->
+        {% for type, label, icon in [
+            ('game', 'Recommend a Game', '🎮'),
+            ('movie', 'Recommend a Movie', '🎬'),
+            ('book', 'Recommend a Book', '📚'),
+            ('advice', 'Give Advice', '🧘')
+        ] %}
         <form method="POST" style="display: inline;">
-            <input type="hidden" name="preset" value="game">
-            <button type="submit" class="preset-btn">🎮 Recommend a Game</button>
+            <input type="hidden" name="preset" value="{{ type }}">
+            <button type="submit" class="preset-btn">{{ icon }} {{ label }}</button>
         </form>
+        {% endfor %}
 
-        <!-- Recommend a Movie Button -->
-        <form method="POST" style="display: inline;">
-            <input type="hidden" name="preset" value="movie">
-            <button type="submit" class="preset-btn">🎬 Recommend a Movie</button>
-        </form>
-
+        <!-- Chat Window -->
         {% if history %}
         <div class="chat-window">
-            {% if history %}
-                {% for message in history %}
-                    {% if message.role == 'user' %}
-                        <div class="chat-bubble user">{{ message.content }}</div>
-                    {% elif message.role == 'assistant' %}
-                        <div class="chat-bubble bot">{{ message.content }}</div>
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
+            {% for message in history %}
+                {% if message.role == 'user' %}
+                    <div class="chat-bubble user">{{ message.content | safe }}</div>
+                {% elif message.role == 'assistant' %}
+                    <div class="chat-bubble bot">{{ message.content | replace('\n', '<br>') | safe }}</div>
+                {% endif %}
+            {% endfor %}
         </div>
         {% endif %}
 
-        <!-- Typing dots always present (JS toggles it) -->
+        <!-- Audio Response -->
+        {% if response %}
+        <div style="text-align: center; margin-top: 15px;">
+            <button onclick="playAudio()" class="preset-btn">🔊 Listen to Response</button>
+            <audio id="responseAudio">
+                <source src="{{ url_for('static', filename='audio_response.mp3') }}" type="audio/mp3">
+                Your browser does not support audio playback.
+            </audio>
+        </div>
+        {% endif %}
+
+        <!-- Typing animation -->
         <div id="loading-message" class="chat-bubble bot typing-indicator" style="display: none;">
-            <span class="typing-dots">
-              <span></span><span></span><span></span>
-            </span>
+            <span class="typing-dots"><span></span><span></span><span></span></span>
         </div>
 
-        <form id="chat-form" method="POST" style="display:flex; gap:10px; justify-content:center; margin-top: 30px;">
-            <input type="text" name="user_input" placeholder="Type your message..." required style="width: 60%; padding: 10px; border-radius: 6px; border: none;">
-            <input type="submit" value="Send">
+        <!-- Chat Form -->
+        <form id="chat-form" method="POST" enctype="multipart/form-data" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px;">
+            
+            <!-- Upload Image -->
+            <label for="image-upload" class="upload-btn">
+                <ion-icon name="image-outline"></ion-icon>
+            </label>
+            <input type="file" id="image-upload" name="image" accept="image/*" style="display: none;">
+            <img id="preview" style="display:none; height: 36px; border-radius: 6px;" />
+
+            <!-- Text Input -->
+            <input type="text" name="user_input" placeholder="Type your message..." required style="flex-grow: 1; padding: 10px; border-radius: 6px; border: none; min-width: 200px;">
+
+            <!-- Send Button -->
+            <input type="submit" value="Send" class="preset-btn">
+
+            <!-- Voice Input Button -->
+            <button type="button" id="voice-btn" class="preset-btn">🎤 Speak</button>
         </form>
-        
-        <form method="GET" action="/reset" style="text-align:center; margin-top: 10px;">
-            <button type="submit" class="clear-chat-btn">Clear Chat</button>
-        </form>
+
         <form method="GET" action="/history" style="text-align:center; margin-top: 10px;">
             <button type="submit" class="preset-btn">📜 View Saved History</button>
         </form>
-        
+
+        <!-- Clear Chat -->
+        <form method="GET" action="/reset" style="text-align: center; margin-top: 10px;">
+            <button type="submit" class="clear-chat-btn">Clear Chat</button>
+        </form>
     </div>
 
-    <!-- Icon Support -->
+    <!-- Scripts -->
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
     <script src="{{ url_for('static', filename='script.js') }}"></script>
+
 </body>
 </html>
