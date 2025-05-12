@@ -59,8 +59,9 @@
                 {% if message.role == 'user' %}
                     <div class="chat-bubble user">{{ message.content | safe }}</div>
                 {% elif message.role == 'assistant' %}
-                    <div class="chat-bubble bot">{{ message.content | replace('\n', '<br>') | safe }}</div>
-                {% endif %}
+    <div class="chat-bubble bot">{{ message.content | safe }}</div>
+{% endif %}
+
             {% endfor %}
         </div>
         {% endif %}
@@ -110,6 +111,42 @@
             <button type="submit" class="clear-chat-btn">Clear Chat</button>
         </form>
 
+    </div>
+
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <span class="close-settings">&times;</span>
+            <h2>⚙️ Chatbot Settings</h2>
+
+            <div class="setting-option">
+                <label><input type="checkbox" id="audioToggle" checked> 🔊 Voice Responses</label>
+            </div>
+
+            <div class="setting-option">
+                <label>🗣️ Chatbot Tone:
+                    <select id="chatbotTone">
+                        <option value="friendly">Friendly</option>
+                        <option value="formal">Formal</option>
+                        <option value="funny">Funny</option>
+                        <option value="concise">Concise</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="setting-option">
+                <button id="clearHistoryBtn" class="preset-btn">🗑️ Clear Chat History</button>
+            </div>
+
+            <div class="setting-option">
+                <label>🌗 Theme:
+                    <select id="themeSelector">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </label>
+            </div>
+
+        </div>
     </div>
 
 

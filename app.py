@@ -53,6 +53,17 @@ def home():
         ]
         session["show_welcome"] = True
 
+    tone = request.cookies.get("chatbotTone", "friendly")
+
+    tone_prompts = {
+        "friendly": "You are a helpful and friendly AI assistant.",
+        "formal": "You are a professional and formal assistant.",
+        "funny": "You respond with humor and wit.",
+        "concise": "You provide concise and to-the-point responses."
+    }
+
+
+
     user_input = None
     response = None
     image_data = None
@@ -77,26 +88,20 @@ def home():
         else:
             # Handle preset button
             preset = request.form.get("preset")
-            if preset == "game":
-                user_input = "Can you recommend me a video game?"
-            elif preset == "movie":
-                user_input = "Can you recommend me a movie?"
-            elif preset == "book":
-                user_input = "Can you recommend me a good book?"
-            elif preset == "advice":
-                user_input = "I need some advice, but first, can you ask me what kind of advice I need? For example: relationships, studying, or motivation?"
-            elif preset == "travel":
-                user_input = "Can you recommend me a good place to go travel?"
-            elif preset == "food":
-                user_input = "Can you recommend a recipe?"
-            elif preset == "joke":
-                user_input = "Tell me a joke"
-            elif preset == "fun_fact":
-                user_input = "Tell me a fun fact"
-            elif preset == "music":
-                user_input = "Can you recommend me a Song"
-            elif preset == "history":
-                user_input = "Can you give me a random fact in history"
+            preset_prompts = {
+                "game": "Can you recommend me a video game?",
+                "movie": "Can you recommend me a movie?",
+                "book": "Can you recommend me a good book?",
+                "advice": "I need some advice, but first, can you ask me what kind of advice I need?",
+                "travel": "Can you recommend me a good place to go travel?",
+                "food": "Can you recommend a recipe?",
+                "joke": "Tell me a joke",
+                "fun_fact": "Tell me a fun fact",
+                "music": "Can you recommend me a Song",
+                "history": "Can you give me a random fact in history"
+            }
+            if preset in preset_prompts:
+                user_input = preset_prompts[preset]
             else:
                 user_input = request.form.get("user_input")
 
@@ -110,62 +115,54 @@ def home():
                 image_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
                 image_data = f"data:image/png;base64,{image_base64}"
                 image_html = f'<img src="{image_data}" class="chat-image">'
-
-        # Construct OpenAI message
-        if image_data:
-            user_message_for_openai = {
-                "role": "user",
-                "content": [
-                    {"type": "text", "text": user_input},
-                    {"type": "image_url", "image_url": {"url": image_data}}
-                ]
-            }
-            display_msg = f"{image_html}<br>{user_input}"
-            session["history"].append({"role": "user", "content": display_msg})
-            db.session.add(ChatMessage(role="user", content=f"[Image] {user_input}"))
+                display_msg = f"{image_html}<br>{user_input}"
+                session["history"].append({"role": "user", "content": display_msg})
+                db.session.add(ChatMessage(role="user", content=f"[Image] {user_input}"))
+            else:
+                session["history"].append({"role": "user", "content": user_input})
+                db.session.add(ChatMessage(role="user", content=user_input))
         else:
-            user_message_for_openai = {"role": "user", "content": user_input}
             session["history"].append({"role": "user", "content": user_input})
             db.session.add(ChatMessage(role="user", content=user_input))
 
-        # Prepare messages for OpenAI (sanitized)
-        history_for_openai = []
-        for msg in session["history"]:
-            if msg["role"] in ("system", "assistant"):
-                history_for_openai.append(msg)
-            elif msg["role"] == "user":
-                from bs4 import BeautifulSoup
-                clean = BeautifulSoup(msg["content"], "html.parser").get_text()
-                history_for_openai.append({"role": "user", "content": clean})
-        history_for_openai.append(user_message_for_openai)
+        # Check for image generation requests
+        if any(keyword in user_input.lower() for keyword in ["generate image", "create image", "generate a picture", "make an image", "draw an image"]):
+            try:
+                img_response = openai.images.generate(prompt=user_input, n=1, size="1024x1024")
+                image_url = img_response.data[0].url
+                response = f'<img src="{image_url}" class="generated-image">'
+            except Exception as e:
+                response = f"Error generating image: {e}"
+        else:
+            # Regular chat completion
+            history_for_openai = []
+            for msg in session["history"]:
+                if msg["role"] in ("system", "assistant"):
+                    history_for_openai.append(msg)
+                elif msg["role"] == "user":
+                    from bs4 import BeautifulSoup
+                    clean = BeautifulSoup(msg["content"], "html.parser").get_text()
+                    history_for_openai.append({"role": "user", "content": clean})
 
-        try:
-            completion = openai.chat.completions.create(
-                model="gpt-4o",
-                messages=history_for_openai
-            )
-            response = completion.choices[0].message.content.strip()
-            session["history"].append({"role": "assistant", "content": response})
-            db.session.add(ChatMessage(role="assistant", content=response))
+            try:
+                completion = openai.chat.completions.create(model="gpt-4o", messages=history_for_openai)
+                response = completion.choices[0].message.content.strip()
+                tts = gTTS(response, lang='en')
+                tts.save("static/audio_response.mp3")
+            except Exception as e:
+                response = f"Error: {e}"
 
-            # Generate TTS audio
-            tts = gTTS(response, lang='en')
-            tts.save("static/audio_response.mp3")
-
-        except Exception as e:
-            response = f"Error: {e}"
-            session["history"].append({"role": "assistant", "content": response})
-            db.session.add(ChatMessage(role="assistant", content=response))
-
+        session["history"].append({"role": "assistant", "content": response})
+        db.session.add(ChatMessage(role="assistant", content=response))
         db.session.commit()
         session["show_welcome"] = False
 
-
-    return render_template("index.html",
-                           response=response,
-                           user_input=user_input,
-                           history=session["history"],
-                           show_welcome=session.get("show_welcome", False))
+    return render_template(
+        "index.html",
+                          response=response,
+                          user_input=user_input,
+                          history=session["history"],
+                          show_welcome=session.get("show_welcome", False))
 
 @app.route("/reset")
 def reset():
@@ -177,6 +174,12 @@ def reset():
 def show_history():
     messages = ChatMessage.query.all()
     return render_template("history.html", messages=messages)
+@app.route("/clear_all_history", methods=["POST"])
+def clear_all_history():
+    session.clear()
+    ChatMessage.query.delete()
+    db.session.commit()
+    return '', 204
 
 if __name__ == "__main__":
     app.run(debug=True)

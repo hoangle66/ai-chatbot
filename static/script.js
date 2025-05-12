@@ -4,7 +4,7 @@ window.onload = () => {
   const chatWindow = document.querySelector('.chat-window');
   const form = document.getElementById('chat-form');
 
-  // Auto-focus on input
+  // Autofocus on input
   if (inputField) inputField.focus();
 
   // Hide loading spinner initially
@@ -55,8 +55,18 @@ document.getElementById('image-upload').addEventListener('change', function (eve
 
 // ✅ Play Audio Button
 function playAudio() {
-  var audio = document.getElementById("responseAudio");
-  if (audio) audio.play();
+  const enabled = JSON.parse(localStorage.getItem('audioEnabled') || 'true');
+  if (!enabled) return;
+
+  const audio = document.getElementById("responseAudio");
+
+  if (audio) {
+    // 🔁 Force reload by resetting src with cache buster
+    const originalSrc = audio.querySelector('source').src.split('?')[0];
+    audio.querySelector('source').src = originalSrc + '?t=' + new Date().getTime();
+    audio.load();  // Reload the updated source
+    audio.play();  // Play after load
+  }
 }
 
 // ✅ Voice-to-Text Input Button
@@ -97,6 +107,42 @@ function startListening() {
   };
 }
 
+  const audioToggle = document.getElementById('audioToggle');
+  audioToggle.checked = JSON.parse(localStorage.getItem('audioEnabled') || 'true');
+
+  audioToggle.addEventListener('change', () => {
+  localStorage.setItem('audioEnabled', audioToggle.checked);
+});
+
+
+  const chatbotTone = document.getElementById('chatbotTone');
+  chatbotTone.value = localStorage.getItem('chatbotTone') || 'friendly';
+
+  chatbotTone.addEventListener('change', () => {
+    const tone = chatbotTone.value;
+    localStorage.setItem('chatbotTone', tone);
+    document.cookie = `chatbotTone=${tone};path=/`;
+  });
+
+  const themeSelector = document.getElementById('themeSelector');
+  themeSelector.value = localStorage.getItem('theme') || 'light';
+
+  themeSelector.addEventListener('change', () => {
+    const theme = themeSelector.value;
+    localStorage.setItem('theme', theme);
+    document.body.setAttribute('data-theme', theme);
+  });
+
+
+  // Apply on page load
+  document.body.setAttribute('data-theme', themeSelector.value);
+
+  const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+clearHistoryBtn.addEventListener('click', () => {
+  fetch('/clear_all_history', {
+    method: 'POST'
+  }).then(() => window.location.reload());
+});
 if (voiceBtn) voiceBtn.addEventListener('click', startListening);
 
 
@@ -105,18 +151,37 @@ document.addEventListener("DOMContentLoaded", () => {
   const helpTab = document.querySelector('.tab[data-tab="help"]');
   const helpModal = document.getElementById("helpModal");
   const closeBtn = helpModal.querySelector(".close");
+  const settingsTab = document.querySelector('.tab[data-tab="settings"]');
+  const settingsModal = document.getElementById("settingsModal");
+  const closeSettingsBtn = settingsModal.querySelector(".close-settings");
 
   helpTab.addEventListener("click", () => {
     helpModal.style.display = "block";
   });
+
+  settingsTab.addEventListener("click", () => {
+    settingsModal.style.display = "block";
+  });
+
+  closeSettingsBtn.addEventListener("click", () => {
+    settingsModal.style.display = "none";
+  });
+
 
   closeBtn.addEventListener("click", () => {
     helpModal.style.display = "none";
   });
 
   window.addEventListener("click", (event) => {
+    if (event.target === settingsModal) {
+      settingsModal.style.display = "none";
+    }
+  });
+
+  window.addEventListener("click", (event) => {
     if (event.target === helpModal) {
       helpModal.style.display = "none";
     }
+
   });
 });

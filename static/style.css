@@ -383,3 +383,54 @@ button.clear-chat-btn:hover {
     margin: 20px 0;
     padding: 10px;
 }
+
+
+.generated-image {
+    max-width: 50%;
+    border-radius: 6px;
+    margin-top: 3px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+body[data-theme="light"] {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Dark theme */
+body[data-theme="dark"] {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+/* Adjust chat bubbles for visibility */
+body[data-theme="dark"] .chat-bubble {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  border: 1px solid #333;
+}
+
+body[data-theme="dark"] .chat-window {
+  background-color: #1a1a1a;
+  color: #ffffff;
+}
+
+body[data-theme="dark"] input,
+body[data-theme="dark"] textarea {
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+body[data-theme="dark"] .preset-btn,
+body[data-theme="dark"] .upload-btn {
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+/* Also for modals */
+body[data-theme="dark"] .modal-content {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
