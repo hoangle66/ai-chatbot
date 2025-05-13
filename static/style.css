@@ -434,3 +434,86 @@ body[data-theme="dark"] .modal-content {
   background-color: #1f1f1f;
   color: #ffffff;
 }
+
+
+
+
+/* Enhanced Settings Modal Style */
+.modal-content {
+    position: relative;
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 30px 25px;
+  border-radius: 18px;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  text-align: left;
+  font-family: 'Poppins', sans-serif;
+  animation: fadeInModal 0.4s ease;
+}
+
+@keyframes fadeInModal {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: 700;
+  color: #2b2b3c;
+}
+
+.modal-content label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.modal-content input[type="checkbox"],
+.modal-content select {
+  transform: scale(1.1);
+  margin-right: 6px;
+}
+
+.modal-content select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-family: 'Poppins', sans-serif;
+}
+
+.modal-content .close-settings {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 24px;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.modal-content .close-settings:hover {
+  color: #721c24;
+}
+
+.modal-content button {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 10px;
+}
+
+.modal-content button:hover {
+  background-color: #f5c6cb;
+}

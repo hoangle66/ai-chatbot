@@ -4,11 +4,14 @@ This is a simple AI-powered chatbot built using **Flask** for the final project 
 
 ## 💡 Project Goal
 We're building a chatbot that:
-- Answering user questions conversationally
-- Recommending movies, games, and books (via preset buttons)
-- Offering friendly advice (via preset button)
-- Maintaining chat history per session
-- Providing a responsive UI experience with loading animations and auto-scroll
+
+- Answers user questions conversationally
+- Recommends movies, games, books, recipes, music, facts, and jokes via preset buttons
+- Asks clarifying questions for advice-type prompts
+- Maintains chat history per session
+- Provides a responsive UI experience with typing animation, voice input, and TTS
+- Supports image generation via OpenAI DALL·E
+- Includes a customizable Settings tab (tone, theme, audio)
 
 This project is designed to be completed within a few weeks, focusing on getting a functional and presentable prototype.
 
@@ -27,7 +30,8 @@ This project is designed to be completed within a few weeks, focusing on getting
 | Sessions     | Flask-Session (server-side) |
 | Data Storage | SQLite (SQLAlchemy ORM)     |
 | Env Config   | Python-dotenv               |
-
+| Image Gen    | OpenAI DALL·E (API)         |
+| TTS          | gTTS (Google Text-to-Speech)|
 
 
 ## 📁 Folder Structure
@@ -41,17 +45,19 @@ ai-chatbot/
 │   ├── index.html
 │   └── history.html
 ├── instance/
-│   └── chat_history.db  ← (SQLite DB auto-generated)
+│   └── chat_history.db
+├── flask_session/
 ├── app.py
 ├── .env
 ├── README.md
 └── .gitignore
 
 
+
 ## ✅ Features
 🧠 Conversational AI via GPT-4o
 
-🖼️ Image upload and processing support
+🖼️ Image upload and Generating Images processing supports
 
 💬 Preset buttons for quick suggestions (Game, Movie, Book, Advice)
 
@@ -95,17 +101,17 @@ cd ai-chatbot
 
 ## 👨‍💻 Team Members
 - Hoang Le (Dempsey) - Project setup, backend logic, OpenAI & image upload, JS enhancements
-- Carlos Romero  – Navigation bar tab UI , Speech to Text, Frontend improvments
-- Garen Astrounian - Chat history, Database Setup, Front End improvments
-- Derek Shin
+- Carlos Romero  
+- Garen Astrounian 
+- Derek Shin 
 - Fabricio Reyes
 
 
 ## 📅 Timeline
-- Week 1: Project setup, base Flask app
-- Week 2: Chatbot logic, OpenAI API integration
-- Week 3: UI polish, image upload, session handling
-- Week 4: Chat history, tab bar, final refinements
+- Week 1: Project setup, Flask skeleton
+- Week 2: Chat + OpenAI API + UI basics
+- Week 3: Image upload, speech-to-text, TTS, styling
+- Week 4: Settings tab, image generation, cleanup & testing
 
 ---
 ## ✅ Features Completed
@@ -114,7 +120,9 @@ cd ai-chatbot
 
  - [x] Upload images for visual discussion
 
- - [x] Preset buttons: 🎮 Game, 🎬 Movie, 📚 Book, 🧘 Advice
+ - [x] Generate images from text (DALL·E)
+
+ - [x] Preset buttons: 🎮 Game, 🎬 Movie, 📚 Book, ✈️ Travel, 🍴 Recipe, 🎵 Music
 
  - [x] Typing animation and polished chat flow
 

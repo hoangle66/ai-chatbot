@@ -59,8 +59,8 @@
                 {% if message.role == 'user' %}
                     <div class="chat-bubble user">{{ message.content | safe }}</div>
                 {% elif message.role == 'assistant' %}
-    <div class="chat-bubble bot">{{ message.content | safe }}</div>
-{% endif %}
+        <div class="chat-bubble bot">{{ message.content | safe }}</div>
+        {% endif %}
 
             {% endfor %}
         </div>
@@ -159,8 +159,9 @@
         <li>Type your question or use the 🎤 Speak button</li>
         <li>Upload an image with your message</li>
         <li>Use preset buttons for fast suggestions</li>
-        <li>Click “Clear Chat” to reset the session</li>
+        <li>Click “Clear Chat” to remove messages on chat log</li>
         <li>Use “View Saved History” to view past chats</li>
+        <li>Settings section provides many other features</li>
         </ul>
     </div>
     </div>
