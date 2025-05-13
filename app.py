@@ -4,45 +4,45 @@ import openai
 import os
 from dotenv import load_dotenv
 
-#imports for image attachment
+# Image processing
 import base64
 from io import BytesIO
 from PIL import Image
 
-#Sql imports for History Chats
+# SQL database
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
-# new imports for speech to text
+# Speech recognition and TTS
 import speech_recognition as sr
 from gtts import gTTS
 
+# Load environment variables
 load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = "your-secret-key"
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-# Database config
+# Database configuration
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///chat_history.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
-# Re-add the ChatMessage model
-class ChatMessage(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.String(64), default="default_user")
-    role = db.Column(db.String(10))  # 'user' or 'assistant'
-    content = db.Column(db.Text)
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-
-# Store session data on the server-side (in the filesystem)
+# Session configuration
 app.config["SESSION_TYPE"] = "filesystem"
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_FILE_DIR"] = "./flask_session"
 app.config["SESSION_FILE_THRESHOLD"] = 500
-
 Session(app)
+
+# Chat message model
+class ChatMessage(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.String(64), default="default_user")
+    role = db.Column(db.String(10))
+    content = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -54,7 +54,6 @@ def home():
         session["show_welcome"] = True
 
     tone = request.cookies.get("chatbotTone", "friendly")
-
     tone_prompts = {
         "friendly": "You are a helpful and friendly AI assistant.",
         "formal": "You are a professional and formal assistant.",
@@ -62,15 +61,14 @@ def home():
         "concise": "You provide concise and to-the-point responses."
     }
 
-
-
     user_input = None
     response = None
     image_data = None
     image_html = None
+    uploaded_image_base64 = None
 
     if request.method == "POST":
-        # Handle audio input
+        # Handle speech
         if 'audio' in request.files and request.files['audio'].filename != '':
             audio_file = request.files['audio']
             recognizer = sr.Recognizer()
@@ -83,10 +81,9 @@ def home():
                     user_input = recognizer.recognize_google(audio_data)
                 except Exception as e:
                     user_input = f"[Speech recognition error: {e}]"
-
             os.remove(audio_path)
         else:
-            # Handle preset button
+            # Handle preset buttons
             preset = request.form.get("preset")
             preset_prompts = {
                 "game": "Can you recommend me a video game?",
@@ -112,8 +109,8 @@ def home():
                 image = Image.open(uploaded_image.stream)
                 buffered = BytesIO()
                 image.save(buffered, format="PNG")
-                image_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
-                image_data = f"data:image/png;base64,{image_base64}"
+                uploaded_image_base64 = base64.b64encode(buffered.getvalue()).decode("utf-8")
+                image_data = f"data:image/png;base64,{uploaded_image_base64}"
                 image_html = f'<img src="{image_data}" class="chat-image">'
                 display_msg = f"{image_html}<br>{user_input}"
                 session["history"].append({"role": "user", "content": display_msg})
@@ -125,7 +122,7 @@ def home():
             session["history"].append({"role": "user", "content": user_input})
             db.session.add(ChatMessage(role="user", content=user_input))
 
-        # Check for image generation requests
+        # Detect image generation request
         if any(keyword in user_input.lower() for keyword in ["generate image", "create image", "generate a picture", "make an image", "draw an image"]):
             try:
                 img_response = openai.images.generate(prompt=user_input, n=1, size="1024x1024")
@@ -134,21 +131,41 @@ def home():
             except Exception as e:
                 response = f"Error generating image: {e}"
         else:
-            # Regular chat completion
+            # Build conversation for OpenAI
             history_for_openai = []
+            from bs4 import BeautifulSoup
+
             for msg in session["history"]:
-                if msg["role"] in ("system", "assistant"):
+                if msg["role"] == "system":
+                    history_for_openai.append(msg)
+                elif msg["role"] == "assistant":
                     history_for_openai.append(msg)
                 elif msg["role"] == "user":
-                    from bs4 import BeautifulSoup
                     clean = BeautifulSoup(msg["content"], "html.parser").get_text()
-                    history_for_openai.append({"role": "user", "content": clean})
+                    # If it's the most recent user message and an image was uploaded
+                    if msg == session["history"][-1] and uploaded_image_base64:
+                        history_for_openai.append({
+                            "role": "user",
+                            "content": [
+                                {"type": "text", "text": clean},
+                                {"type": "image_url", "image_url": {"url": f"data:image/png;base64,{uploaded_image_base64}"}}
+                            ]
+                        })
+                    else:
+                        history_for_openai.append({"role": "user", "content": clean})
 
+            # Call GPT-4o with or without vision
             try:
-                completion = openai.chat.completions.create(model="gpt-4o", messages=history_for_openai)
+                completion = openai.chat.completions.create(
+                    model="gpt-4o",
+                    messages=history_for_openai
+                )
                 response = completion.choices[0].message.content.strip()
+
+                # Text-to-speech
                 tts = gTTS(response, lang='en')
                 tts.save("static/audio_response.mp3")
+
             except Exception as e:
                 response = f"Error: {e}"
 
@@ -157,23 +174,22 @@ def home():
         db.session.commit()
         session["show_welcome"] = False
 
-    return render_template(
-        "index.html",
-                          response=response,
-                          user_input=user_input,
-                          history=session["history"],
-                          show_welcome=session.get("show_welcome", False))
+    return render_template("index.html",
+                           response=response,
+                           user_input=user_input,
+                           history=session["history"],
+                           show_welcome=session.get("show_welcome", False))
 
 @app.route("/reset")
 def reset():
     session.clear()
     return redirect("/")
 
-# Route to show saved chat history
 @app.route("/history")
 def show_history():
     messages = ChatMessage.query.all()
     return render_template("history.html", messages=messages)
+
 @app.route("/clear_all_history", methods=["POST"])
 def clear_all_history():
     session.clear()
